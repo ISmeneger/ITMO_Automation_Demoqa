@@ -13,6 +13,9 @@ class WebElement:
     def click(self):
         self.find_element().click()
 
+    def get_text(self):
+        return str(self.find_element().text)
+
     def exist(self):
         try:
             self.find_element()
@@ -20,4 +23,7 @@ class WebElement:
             return False
         return True
 
-    def get_text(self):
+    def visible(self):
+        return self.find_element().is_displayed()
+
+
