@@ -1,4 +1,3 @@
-import time
 from pages.modal_dialogs import ModalDialogs
 from pages.demoqa import DemoQa
 
@@ -13,7 +12,6 @@ def test_navigation_modal(browser):
     modal_dialogs = ModalDialogs(browser)
     demo = DemoQa(browser)
 
-    demo.visit()
     modal_dialogs.visit()
 
     modal_dialogs.refresh()
