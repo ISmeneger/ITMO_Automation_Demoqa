@@ -10,7 +10,7 @@ class BasePage:
     def get_url(self):
         return self.driver.current_url
 
-    def equal_url(self):
+    def equal_url(self) -> object:
         if self.get_url() == self.base_url:
             return True
         return False
