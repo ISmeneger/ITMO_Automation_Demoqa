@@ -19,9 +19,18 @@ class Tables(BasePage):
         self.salary_field = WebElement(driver, '#salary')
         self.department_field = WebElement(driver, '#department')
 
-        self.string_exsist = WebElement(driver, '#app > div > div > div.row > div.col-12.mt-4.col-md-6 > div.web-tables-wrapper > div.ReactTable.-striped.-highlight > div.rt-table > div.rt-tbody > div:nth-child(4) > div > div:nth-child(1)')
+        self.string_exist = WebElement(driver, 'div:nth-child(4) > div > div:nth-child(1)')
         self.edit_record = WebElement(driver, '#edit-record-4')
         self.delete_record = WebElement(driver, '#delete-record-4')
+
+        self.select_row = WebElement(driver, 'span.select-wrap.-pageSizeOptions > select')
+        self.establish_5row = WebElement(driver, 'select > option:nth-child(1)')
+        self.btn_next = WebElement(driver, 'div.-next > button')
+        self.page_num = WebElement(driver,'div > input[type=number]')
+        self.btn_previous = WebElement(driver,'div.-previous > button')
+
+
+
 
 
 
