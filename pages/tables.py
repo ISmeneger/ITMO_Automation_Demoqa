@@ -28,6 +28,13 @@ class Tables(BasePage):
         self.btn_next = WebElement(driver, 'div.-next > button')
         self.page_num = WebElement(driver,'div > input[type=number]')
         self.btn_previous = WebElement(driver,'div.-previous > button')
+        self.first_name_column = WebElement(driver,'//*[@id="app"]/div/div/div[2]/div[2]/div[2]/div[3]/div[1]/div[1]/div/div[1]', 'xpath')
+        self.last_name_column = WebElement(driver, '//*[@id="app"]/div/div/div[2]/div[2]/div[2]/div[3]/div[1]/div[1]/div/div[2]', 'xpath')
+        self.age_column = WebElement(driver, '//*[@id="app"]/div/div/div[2]/div[2]/div[2]/div[3]/div[1]/div[1]/div/div[3]', 'xpath')
+        self.email_column = WebElement(driver, '//*[@id="app"]/div/div/div[2]/div[2]/div[2]/div[3]/div[1]/div[1]/div/div[4]', 'xpath')
+        self.salary_column = WebElement(driver, '//*[@id="app"]/div/div/div[2]/div[2]/div[2]/div[3]/div[1]/div[1]/div/div[5]', 'xpath')
+        self.department_column = WebElement(driver, '//*[@id="app"]/div/div/div[2]/div[2]/div[2]/div[3]/div[1]/div[1]/div/div[6]', 'xpath')
+
 
 
 
