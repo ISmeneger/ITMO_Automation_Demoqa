@@ -14,3 +14,5 @@ def test_seo_meta(browser, pages):
     assert page.viewport.exist()
     assert page.viewport.get_dom_attribute('name') == "viewport"
     assert page.viewport.get_dom_attribute('content') == "width=device-width,initial-scale=1"
+
+
