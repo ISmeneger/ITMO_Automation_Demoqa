@@ -1,4 +1,5 @@
 import re
+
 def validate_date(date_string):
     pattern = r'(\d{1,2})\s([а-яА-Я]+)\s(\d{4})'
     if re.match(pattern, date_string):
