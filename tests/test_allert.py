@@ -23,7 +23,7 @@ def test_alert_text(browser):
     page_alerts.alert_button.click()
     time.sleep(2)
 
-    assert page_alerts.alert().text == 'You clicked a button'
+    assert 'You clicked a button' == page_alerts.alert().text
     page_alerts.alert().accept()
 
     assert not page_alerts.alert()

@@ -9,4 +9,5 @@ def validate_date(date_string):
 
 date = '12 Августа 2023'
 is_valid = validate_date(date)
-print(is_valid)  # Возвращает значение True, если дата действительна; в противном случае - значение False.
+print(is_valid)  # Возвращает значение True, если дата действительна, в противном случае - значение False.
+
