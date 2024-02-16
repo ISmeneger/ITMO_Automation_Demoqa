@@ -9,22 +9,27 @@ class WebElement:
         self.locator = locator
         self.locator_type = locator_type
 
+    # Поиск элемента
     def find_element(self):
         return self.driver.find_element(self.get_by_type(), self.locator)
 
+    # Поиск элементов (по неуникальному локатору) (проверка равенства кол-ва элементов, проверка неравенства кол-ва элементов)
     def find_elements(self):
         return self.driver.find_elements(self.get_by_type(), self.locator)
 
+    # Кликнуть на элемент
     def click(self):
         self.find_element().click()
 
+    # Кликнуть на элемент принудительно
     def click_force(self):
         self.driver.execute_script("arguments[0].click();", self.find_element())
 
-
+    # Получить текст элемента
     def get_text(self):
         return str(self.find_element().text)
 
+    # Элемент есть в DOM (not exist - элемента нет в DOM)
     def exist(self):
         try:
             self.find_element()
@@ -32,17 +37,21 @@ class WebElement:
             return False
         return True
 
+    # Элемент виден на странице (not visible - элемент НЕ виден на странице)
     def visible(self):
         return self.find_element().is_displayed()
 
+    #
     def check_count_elements(self, count: int):
         if len(self.find_elements()) == count:
             return True
         return False
 
+    # Ввести текст
     def send_keys(self, text: str):
         self.find_element().send_keys(text)
 
+    # Очищает текстовое поле
     def clear(self):
         self.send_keys(Keys.CONTROL + 'a')
         self.send_keys(Keys.DELETE)

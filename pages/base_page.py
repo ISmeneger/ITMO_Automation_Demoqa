@@ -12,24 +12,29 @@ class BasePage:
     def visit(self):
         return self.driver.get(self.base_url)
 
-
+    # перейти по урлу
     def get_url(self):
         return self.driver.current_url
 
+    # .current_url - получить текущий URL
     def equal_url(self) -> object:
         if self.get_url() == self.base_url:
             return True
         return False
 
+    # .back() - стрелка назад в браузере
     def back(self):
         self.driver.back()
 
+    # forward() - стрелка вперед в браузере
     def forward(self):
         self.driver.forward()
 
+    # .refresh() - обновить страницу
     def refresh(self):
         self.driver.refresh()
 
+    # .title - получить title страницы
     def get_title(self):
         return self.driver.title
 
