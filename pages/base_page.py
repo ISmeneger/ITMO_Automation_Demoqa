@@ -9,14 +9,15 @@ class BasePage:
         self.base_url = base_url
         self.viewport = WebElement(driver, 'head > meta')
 
+    # Метод входа на страницу
     def visit(self):
         return self.driver.get(self.base_url)
 
-    # перейти по урлу
+    # .current_url - получить текущий URL
     def get_url(self):
         return self.driver.current_url
 
-    # .current_url - получить текущий URL
+    # Проверка URL
     def equal_url(self) -> object:
         if self.get_url() == self.base_url:
             return True
