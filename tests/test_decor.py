@@ -3,6 +3,7 @@ from pages.radio_button import RadioButton
 import pytest
 
 
+# Декоратор skip, который позволяет пропустить тестовую функцию
 @pytest.mark.skip
 def test_decor(browser):
     page_demo = DemoQa(browser)
@@ -15,6 +16,7 @@ def test_decor(browser):
     for element in page_demo.h5.find_elements():
         assert element.text != ''
 
+# Декоратор skipif позволяет пропускать тест кейс исходя из условия
 @pytest.mark.skipif(True, reason='просто пропуск')
 def test_decor_2(browser):
     page_radio = RadioButton(browser)

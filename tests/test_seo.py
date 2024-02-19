@@ -12,6 +12,8 @@ def test_seo(browser):
     demo.visit()
     assert browser.title == 'DEMOQA'
 
+# Декоратор @pytest.mark.parametrize() для цикличных тестов с разными переменными.
+# Мы можем передать классы страниц, как переменную для теста
 @pytest.mark.parametrize('pages', [Accordion, Alerts, DemoQa, BrowserTab])
 def test_check_title_all_pages(browser, pages):
     page = pages(browser)

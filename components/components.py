@@ -9,27 +9,27 @@ class WebElement:
         self.locator = locator
         self.locator_type = locator_type
 
-    # Поиск элемента
+    # Метод для поиска элемента
     def find_element(self):
         return self.driver.find_element(self.get_by_type(), self.locator)
 
-    # Поиск элементов (по неуникальному локатору) (проверка равенства кол-ва элементов, проверка неравенства кол-ва элементов)
+    # Метод для поиска элементов (по неуникальному локатору) (проверка равенства кол-ва элементов, проверка неравенства кол-ва элементов)
     def find_elements(self):
         return self.driver.find_elements(self.get_by_type(), self.locator)
 
-    # Кликнуть на элемент
+    # Метод, позволяющий кликнуть на элемент
     def click(self):
         self.find_element().click()
 
-    # Кликнуть на элемент принудительно
+    # Метод, позволяющий кликнуть на элемент принудительно
     def click_force(self):
         self.driver.execute_script("arguments[0].click();", self.find_element())
 
-    # Получить текст элемента
+    # Метод для получения текста элемента
     def get_text(self):
         return str(self.find_element().text)
 
-    # Элемент есть в DOM (not exist - элемента нет в DOM)
+    # Метод для проверки существования элемента в DOM (not exist - элемента нет в DOM)
     def exist(self):
         try:
             self.find_element()
@@ -37,25 +37,26 @@ class WebElement:
             return False
         return True
 
-    # Элемент виден на странице (not visible - элемент НЕ виден на странице)
+    # Метод проверки видимости элемнта на странице (not visible - элемент НЕ виден на странице)
     def visible(self):
         return self.find_element().is_displayed()
 
-    #
+    # Метод для проверки кол-ва одинаковых элементов на странице
     def check_count_elements(self, count: int):
         if len(self.find_elements()) == count:
             return True
         return False
 
-    # Ввести текст
+    # Метод для ввода текста
     def send_keys(self, text: str):
         self.find_element().send_keys(text)
 
-    # Очищает текстовое поле
+    # Метод для очистки текстового поля
     def clear(self):
         self.send_keys(Keys.CONTROL + 'a')
         self.send_keys(Keys.DELETE)
 
+    # Метод, который возвращает значение атрибутов с заданным именем
     def get_dom_attribute(self, name: str):
         value = self.find_element().get_dom_attribute(name)
 
@@ -65,15 +66,18 @@ class WebElement:
             return value
         return True
 
+    # Метод для проверки стилей CSS
     def check_css(self, style, value=''):
         return self.find_element().value_of_css_property(style) == value
 
+    # Метод прокрутки страницы до любого элемента
     def scroll_to_element(self):
         self.driver.execute_script(
             "window.scrollTo(0, document.body.scrollHeight);",
         self.find_element()
         )
 
+    # Метод для работы с любым типом локатора
     def get_by_type(self):
         if self.locator_type == 'id':
             return By.ID
