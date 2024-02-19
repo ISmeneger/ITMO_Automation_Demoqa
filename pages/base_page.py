@@ -7,17 +7,16 @@ class BasePage:
         self.last_name_field = None
         self.driver = driver
         self.base_url = base_url
-        self.viewport = WebElement(driver, 'head > meta:nth-child(2)')
+        self.viewport = WebElement(driver, 'head > meta')
 
-    # Метод входа на страницу
     def visit(self):
         return self.driver.get(self.base_url)
 
-    # .current_url - получить текущий URL
+    # перейти по урлу
     def get_url(self):
         return self.driver.current_url
 
-    # Метод проверки URL
+    # .current_url - получить текущий URL
     def equal_url(self) -> object:
         if self.get_url() == self.base_url:
             return True
@@ -27,7 +26,7 @@ class BasePage:
     def back(self):
         self.driver.back()
 
-    # .forward() - стрелка вперед в браузере
+    # forward() - стрелка вперед в браузере
     def forward(self):
         self.driver.forward()
 
@@ -39,8 +38,6 @@ class BasePage:
     def get_title(self):
         return self.driver.title
 
-    # Метод alert (такой метод позволяет нам проверить открыт ли алерт и дает возможность работать
-    # с окном, но не позволяет проверить, что окно НЕ открыто)
     def alert(self):
         try:
             return self.driver.switch_to.alert

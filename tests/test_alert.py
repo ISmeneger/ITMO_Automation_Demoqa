@@ -16,14 +16,14 @@ def test_alert(browser):
 
 
 def test_alert_text(browser):
-    """Подтверждение текстf алерта"""
+    """Подтверждение текста алерта"""
     page_alerts = Alerts(browser)
     page_alerts.visit()
 
     page_alerts.alert_button.click()
     time.sleep(2)
 
-    assert 'You clicked a button' == page_alerts.alert().text
+    assert "You clicked a button" == page_alerts.alert().text
     page_alerts.alert().accept()
 
     assert not page_alerts.alert()
