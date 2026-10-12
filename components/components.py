@@ -1,98 +1,101 @@
-from selenium.webdriver.common.by import By
-from selenium.common.exceptions import NoSuchElementException
+from selenium.common.exceptions import ElementClickInterceptedException
 from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.ui import WebDriverWait
+
 
 class WebElement:
+    """Reusable element actions with bounded explicit waits."""
 
-    def __init__(self, driver, locator='', locator_type='css'):
+    LOCATOR_TYPES = {
+        "id": By.ID, "name": By.NAME, "xpath": By.XPATH,
+        "css": By.CSS_SELECTOR, "class": By.CLASS_NAME, "link": By.LINK_TEXT,
+    }
+
+    def __init__(self, driver, locator='', locator_type='css', timeout=10):
         self.driver = driver
         self.locator = locator
         self.locator_type = locator_type
+        self.timeout = timeout
 
-    # Метод для поиска элемента
+    def get_by_type(self):
+        if self.locator_type not in self.LOCATOR_TYPES:
+            raise ValueError(f"Unknown locator type: {self.locator_type}")
+        return self.LOCATOR_TYPES[self.locator_type]
+
+    @property
+    def by(self):
+        return self.get_by_type(), self.locator
+
     def find_element(self):
-        return self.driver.find_element(self.get_by_type(), self.locator)
+        return WebDriverWait(self.driver, self.timeout).until(
+            EC.presence_of_element_located(self.by))
 
-    # Метод для поиска элементов (по неуникальному локатору) (проверка равенства кол-ва элементов, проверка неравенства кол-ва элементов)
     def find_elements(self):
-        return self.driver.find_elements(self.get_by_type(), self.locator)
+        return self.driver.find_elements(*self.by)
 
-    # Метод, позволяющий кликнуть на элемент
     def click(self):
-        self.find_element().click()
+        element = WebDriverWait(self.driver, self.timeout).until(
+            EC.element_to_be_clickable(self.by))
+        self.driver.execute_script(
+            "arguments[0].scrollIntoView({block: 'center'});", element)
+        try:
+            element.click()
+        except ElementClickInterceptedException as error:
+            # DemoQA's fixed footer overlaps bottom buttons. Activate only
+            # native keyboard-accessible controls, without hiding the footer.
+            if '<footer' not in error.msg or element.tag_name.lower() not in {'button', 'a'}:
+                raise
+            element.send_keys(Keys.ENTER)
 
-    # Метод, позволяющий кликнуть на элемент принудительно
     def click_force(self):
+        # DemoQA has hidden native radio/checkbox inputs with custom labels.
         self.driver.execute_script("arguments[0].click();", self.find_element())
 
-    # Метод для получения текста элемента
     def get_text(self):
-        return str(self.find_element().text)
+        return self.wait_visible().text
 
-    # Метод для проверки существования элемента в DOM (not exist - элемента нет в DOM)
+    def get_value(self):
+        return self.find_element().get_property('value')
+
     def exist(self):
-        try:
-            self.find_element()
-        except NoSuchElementException:
-            return False
-        return True
+        return bool(self.find_elements())
 
-    # Метод проверки видимости элемнта на странице (not visible - элемент НЕ виден на странице)
     def visible(self):
-        return self.find_element().is_displayed()
+        return any(element.is_displayed() for element in self.find_elements())
 
-    # Метод для проверки кол-ва одинаковых элементов на странице
-    def check_count_elements(self, count: int):
-        if len(self.find_elements()) == count:
-            return True
-        return False
+    def wait_visible(self):
+        return WebDriverWait(self.driver, self.timeout).until(
+            EC.visibility_of_element_located(self.by))
 
-    # Метод для ввода текста
-    def send_keys(self, text: str):
-        self.find_element().send_keys(text)
+    def wait_hidden(self):
+        return WebDriverWait(self.driver, self.timeout).until(
+            EC.invisibility_of_element_located(self.by))
 
-    # Метод для очистки текстового поля
+    def check_count_elements(self, count):
+        return len(self.find_elements()) == count
+
+    def send_keys(self, text):
+        self.wait_visible().send_keys(text)
+
     def clear(self):
-        self.send_keys(Keys.CONTROL + 'a')
-        self.send_keys(Keys.DELETE)
+        element = self.wait_visible()
+        platform = self.driver.capabilities.get('platformName', '').lower()
+        modifier = Keys.COMMAND if 'mac' in platform else Keys.CONTROL
+        # Native clear() can empty React-controlled inputs without firing
+        # the input event consumed by React. Keyboard deletion updates state.
+        element.send_keys(modifier, 'a')
+        element.send_keys(Keys.BACKSPACE)
+        WebDriverWait(self.driver, self.timeout).until(
+            lambda _: self.get_value() == '')
 
-    # Метод, который возвращает значение атрибутов с заданным именем
-    def get_dom_attribute(self, name: str):
-        value = self.find_element().get_dom_attribute(name)
+    def get_dom_attribute(self, name):
+        return self.find_element().get_dom_attribute(name)
 
-        if value is None:
-            return False
-        if len(value) > 0:
-            return value
-        return True
-
-    # Метод для проверки стилей CSS
     def check_css(self, style, value=''):
         return self.find_element().value_of_css_property(style) == value
 
-    # Метод прокрутки страницы до любого элемента
     def scroll_to_element(self):
         self.driver.execute_script(
-            "window.scrollTo(0, document.body.scrollHeight);",
-        self.find_element()
-        )
-
-    # Метод для работы с любым типом локатора
-    def get_by_type(self):
-        if self.locator_type == 'id':
-            return By.ID
-        elif self.locator_type == 'name':
-            return By.NAME
-        elif self.locator_type == 'xpath':
-            return By.XPATH
-        elif self.locator_type == 'css':
-            return By.CSS_SELECTOR
-        elif self.locator_type == 'class':
-            return By.CLASS_NAME
-        elif self.locator_type == 'link':
-            return By.LINK_TEXT
-        else:
-            print('Locator type ' + self.locator_type + ' not correct')
-        return False
-
-
+            "arguments[0].scrollIntoView({block: 'center'});", self.find_element())

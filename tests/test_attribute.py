@@ -1,6 +1,8 @@
+import pytest
 from pages.text_box import TextBox
 
 
+@pytest.mark.smoke
 def test_placeholder(browser):
     """Проверка значения атрибута элемента"""
 

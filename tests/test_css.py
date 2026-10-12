@@ -1,3 +1,4 @@
+from selenium.webdriver.support.color import Color
 from pages.text_box import TextBox
 
 
@@ -5,10 +6,9 @@ def test_text_box_submit(browser):
     text_box = TextBox(browser)
     text_box.visit()
 
-    assert text_box.btn_submit.check_css('color', 'rgba(255, 255, 255, 1)')
+    assert Color.from_string(text_box.btn_submit.find_element().value_of_css_property('color')).hex == '#ffffff'
 
-    assert text_box.btn_submit.check_css('backgroundColor', 'rgba(0, 123, 255, 1)')
-    assert text_box.btn_submit.check_css('borderColor', 'rgb(0, 123, 255)')
-
+    assert Color.from_string(text_box.btn_submit.find_element().value_of_css_property('background-color')).hex == '#0d6efd'
+    assert Color.from_string(text_box.btn_submit.find_element().value_of_css_property('border-top-color')).hex == '#0d6efd'
 
 

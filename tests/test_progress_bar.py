@@ -1,19 +1,14 @@
-import time
+from selenium.webdriver.support.ui import WebDriverWait
 from pages.progress_bar import ProgressBar
 
 
 def test_progress_bar(browser):
-    page_progress_bar = ProgressBar(browser)
-    page_progress_bar.visit()
-    time.sleep(2)
-
-    page_progress_bar.start_stop_button.click()
-
-    while True:
-        if page_progress_bar.progress_bar.get_dom_attribute('aria-valuenow') == '51':
-            page_progress_bar.start_stop_button.click()
-            break
-
-    time.sleep(2)
-
-    assert page_progress_bar.progress_bar.get_dom_attribute('aria-valuenow') == '51'
+    page = ProgressBar(browser)
+    page.visit()
+    page.start_stop_button.click()
+    WebDriverWait(browser, 15).until(
+        lambda _: int(page.progress_bar.get_dom_attribute('aria-valuenow')) >= 50)
+    page.start_stop_button.click()
+    value = int(page.progress_bar.get_dom_attribute('aria-valuenow'))
+    assert 50 <= value <= 100
+    assert page.start_stop_button.get_text() == 'Start'

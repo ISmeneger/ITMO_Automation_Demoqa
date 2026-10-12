@@ -1,4 +1,3 @@
-import time
 import pytest
 from pages.demoqa import DemoQa
 from pages.accordion import Accordion
@@ -9,10 +8,13 @@ from pages.browser_tab import BrowserTab
 def test_seo_meta(browser, pages):
     page = pages(browser)
     page.visit()
-    time.sleep(2)
+
 
     assert page.viewport.exist()
     assert page.viewport.get_dom_attribute('name') == "viewport"
-    assert page.viewport.get_dom_attribute('content') == "width=device-width,initial-scale=1"
+    content = page.viewport.get_dom_attribute('content')
+    settings = dict(part.strip().split('=', 1) for part in content.split(','))
+    assert settings['width'].strip() == 'device-width'
+    assert float(settings['initial-scale']) == 1.0
 
 

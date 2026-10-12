@@ -27,7 +27,7 @@ def test_koup_add(browser):
     # assert koup_add.btns_delete.get_text() == 'Delete'
 
     """When кликнуть на каждую кнопку 'Delete'"""
-    while koup_add.btns_delete.exist():
+    for _ in range(4):
         koup_add.btns_delete.click()
 
     assert not koup_add.btns_delete.exist()

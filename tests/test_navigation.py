@@ -14,4 +14,4 @@ def test_navigation(browser):
 
     browser.back()
     browser.forward()
-    assert elements.equal_url()
+    assert elements.wait_url()

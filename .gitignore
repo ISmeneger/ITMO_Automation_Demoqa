@@ -1,3 +1,8 @@
-/venv
-.idea
-*.pytest_cache
+.venv/
+venv/
+.idea/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+chromedriver.exe
+artifacts/

@@ -11,4 +11,4 @@ class TextBox(BasePage):
 
         self.current_address = WebElement(driver, '#currentAddress')
         self.btn_submit = WebElement(driver, '#submit')
-        self.text_appear = WebElement(driver, '#output > div')
+        self.text_appear = WebElement(driver, '#output')

@@ -4,7 +4,7 @@ from components.components import WebElement
 class FormPage(BasePage):
 
     def __init__(self, driver):
-        self.base_url = 'https://demoqa.com/automation-practice-form '
+        self.base_url = 'https://demoqa.com/automation-practice-form'
         super().__init__(driver, self.base_url)
 
         self.first_name = WebElement(driver, '#firstName')
@@ -24,17 +24,5 @@ class FormPage(BasePage):
         self.inp_state = WebElement(driver, '#react-select-3-input')
 
         self.btn_NCR = WebElement(driver, "//*[contains(text(), 'NCR')]", 'xpath')
-
-
-
-
-
-
-
-
-
-
-
-
 
 

@@ -1,4 +1,3 @@
-import time
 from pages.alerts import Alerts
 
 
@@ -10,9 +9,10 @@ def test_alert(browser):
     assert not page_alerts.alert()
 
     page_alerts.alert_button.click()
-    time.sleep(2)
 
-    assert page_alerts.alert()
+
+    assert page_alerts.wait_alert()
+    page_alerts.wait_alert().accept()
 
 
 def test_alert_text(browser):
@@ -21,10 +21,10 @@ def test_alert_text(browser):
     page_alerts.visit()
 
     page_alerts.alert_button.click()
-    time.sleep(2)
 
-    assert "You clicked a button" == page_alerts.alert().text
-    page_alerts.alert().accept()
+
+    assert "You clicked a button" == page_alerts.wait_alert().text
+    page_alerts.wait_alert().accept()
 
     assert not page_alerts.alert()
 
@@ -35,8 +35,8 @@ def test_confirm(browser):
     page_alerts.visit()
 
     page_alerts.confirm_button.click()
-    time.sleep(2)
-    page_alerts.alert().dismiss()
+
+    page_alerts.wait_alert().dismiss()
 
     assert page_alerts.confirm_result.get_text() == 'You selected Cancel'
 
@@ -48,21 +48,11 @@ def test_prompt(browser):
     name = 'Ilya'
 
     page_alerts.promt_button.click()
-    time.sleep(2)
 
-    page_alerts.alert().send_keys(name)
-    page_alerts.alert().accept()
+
+    page_alerts.wait_alert().send_keys(name)
+    page_alerts.wait_alert().accept()
 
     assert page_alerts.prompt_result.get_text() == f'You entered {name}'
-
-
-
-
-
-
-
-
-
-
 
 

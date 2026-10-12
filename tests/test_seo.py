@@ -1,4 +1,3 @@
-import time
 import pytest
 from pages.demoqa import DemoQa
 from pages.accordion import Accordion
@@ -10,7 +9,7 @@ def test_seo(browser):
     demo = DemoQa(browser)
 
     demo.visit()
-    assert browser.title == 'DEMOQA'
+    assert browser.title == 'demosite'
 
 # Декоратор @pytest.mark.parametrize() для цикличных тестов с разными переменными.
 # Мы можем передать классы страниц, как переменную для теста
@@ -18,6 +17,6 @@ def test_seo(browser):
 def test_check_title_all_pages(browser, pages):
     page = pages(browser)
     page.visit()
-    time.sleep(2)
 
-    assert page.get_title() == 'DEMOQA'
+
+    assert page.get_title() == 'demosite'

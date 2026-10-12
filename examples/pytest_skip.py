@@ -4,7 +4,7 @@ import pytest
 
 
 # Декоратор skip, который позволяет пропустить тестовую функцию
-@pytest.mark.skip
+@pytest.mark.skip(reason='Учебный пример безусловного skip')
 def test_decor(browser):
     page_demo = DemoQa(browser)
     page_demo.visit()
